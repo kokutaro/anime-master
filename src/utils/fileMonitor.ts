@@ -14,28 +14,23 @@ const basePath = process.env.BASE_PATH ?? '';
 const fileMonitor = (): NodeJS.Timeout => {
   return setInterval(async () => {
     const files = fs.readdirSync(basePath);
-    files.forEach(async (f) => {
+    const filesToMove: string[] = [];
+    files.forEach((f) => {
       const fullPath = path.join(basePath, f);
       if (!fs.existsSync(fullPath)) {
         return;
       }
       const stat = fs.statSync(fullPath);
       if (stat.isDirectory()) {
-        walkTree(fullPath, async (s) => {
-          await sleep(350);
-          const anime = await getJpName(path.basename(s));
-          if (anime) {
-            console.log(moveFile(path.basename(s), anime.anime.title.japanese));
-          }
+        walkTree(fullPath, (s) => {
+          filesToMove.push(path.basename(s));
         });
       } else {
-        await sleep(350);
-        const anime = await getJpName(path.basename(f));
-        if (anime) {
-          console.log(moveFile(path.basename(f), anime.anime.title.japanese));
-        }
+        filesToMove.push(path.basename(f));
       }
     });
+    await sleep(1000);
+    console.log(filesToMove);
   }, 1 * 60 * 1000);
 };
 
