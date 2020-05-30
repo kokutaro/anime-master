@@ -1,7 +1,10 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 let ax = axios.create({
-  baseURL: process.env.UT_URL,
+  baseURL: process.env.UT_URL ?? '',
   auth: {
     password: process.env.UT_PASSWORD ?? '',
     username: process.env.UT_USER_NAME ?? '',
@@ -11,24 +14,22 @@ let ax = axios.create({
 let token: string;
 
 const stopTorrent = async (): Promise<void> => {
-  if (!token) {
-    const tokenRes = await ax.get<string>('gui/token.html');
-    const { data } = tokenRes;
-    const cookie = tokenRes.headers['set-cookie'][0];
+  const tokenRes = await ax.get<string>('gui/token.html');
+  const { data } = tokenRes;
+  const cookie = tokenRes.headers['set-cookie'][0];
 
-    token = data.replace(/^.*?<div.*?>(.*?)<\/div>.*?$/, '$1');
+  token = data.replace(/^.*?<div.*?>(.*?)<\/div>.*?$/, '$1');
 
-    ax = axios.create({
-      baseURL: process.env.UT_URL,
-      auth: {
-        password: process.env.UT_PASSWORD ?? '',
-        username: process.env.UT_USER_NAME ?? '',
-      },
-      headers: {
-        Cookie: cookie,
-      },
-    });
-  }
+  ax = axios.create({
+    baseURL: process.env.UT_URL,
+    auth: {
+      password: process.env.UT_PASSWORD ?? '',
+      username: process.env.UT_USER_NAME ?? '',
+    },
+    headers: {
+      Cookie: cookie,
+    },
+  });
 
   const dataRes = await ax.get<{ torrents: string[][] }>(`gui/`, {
     params: {
