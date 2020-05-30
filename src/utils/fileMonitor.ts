@@ -25,14 +25,14 @@ const fileMonitor = (): NodeJS.Timeout => {
           await sleep(350);
           const anime = await getJpName(path.basename(s));
           if (anime) {
-            console.log(moveFile(anime.torrentName, anime.anime.title.japanese));
+            console.log(moveFile(path.basename(s), anime.anime.title.japanese));
           }
         });
       } else {
         await sleep(350);
         const anime = await getJpName(path.basename(f));
         if (anime) {
-          console.log(moveFile(anime.torrentName, anime.anime.title.japanese));
+          console.log(moveFile(path.basename(f), anime.anime.title.japanese));
         }
       }
     });
