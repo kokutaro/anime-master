@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { AnimeData } from '../types/AnimeData';
 
-const re = /(^\[.*?\] *)?(.*?) - (\d\d|\d\d\.\d|\d\dv\d).*?$/;
+const re = /(^\[.*?\] *)?(.*?) - (SP|OA[DV]|OVA)?(\d\d|\d\d\.\d|\d\dv\d).*?$/;
 
 const animeApi = axios.create({
   baseURL: process.env.UT_API_URL ?? '',
