@@ -39,7 +39,7 @@ const moveFile = (srcPath: string, jpName: string): boolean => {
   if (!re.test(baseName)) {
     return false;
   }
-  const ep = baseName.replace(re, '$3');
+  const ep = baseName.replace(re, '$4');
   const ext = path.extname(baseName);
 
   const safeTitle = convertTitle(jpName);
