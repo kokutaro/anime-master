@@ -3,3 +3,4 @@ dist/
 coverage/
 product/
 .env
+assets
