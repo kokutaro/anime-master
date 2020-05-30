@@ -22,7 +22,7 @@ const getJpName = async (tname: string): Promise<AnimeData | null> => {
     const [animeData] = animes.data;
     return animeData;
   } catch (error) {
-    console.error(error.error);
+    console.error(error);
     return null;
   }
 };
