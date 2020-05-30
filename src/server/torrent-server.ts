@@ -19,7 +19,7 @@ app.post('/', async (req: Request<never, never, { tname: string }>, res: Respons
     return res.end();
   }
 
-  moveFile(animeData.torrentName, animeData.anime.title.japanese);
+  moveFile(animeData.torrentName.replace(/\.torrent$/, ''), animeData.anime.title.japanese);
 });
 
 const torrentServer = http.createServer(app);
