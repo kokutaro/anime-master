@@ -31,16 +31,17 @@ const convertTitle = (title: string): string => {
   return t;
 };
 
-const moveFile = (torrentName: string, jpName: string): boolean => {
+const moveFile = (srcPath: string, jpName: string): boolean => {
   stopTorrent();
-  if (!torrentName || !jpName) {
+  const baseName = path.basename(srcPath);
+  if (!srcPath || !jpName) {
     return false;
   }
-  if (!re.test(torrentName)) {
+  if (!re.test(baseName)) {
     return false;
   }
-  const ep = torrentName.replace(re, '$2');
-  const ext = path.extname(torrentName);
+  const ep = baseName.replace(re, '$3');
+  const ext = path.extname(baseName);
 
   const safeTitle = convertTitle(jpName);
   const dstFolder = path.join(moveTo, safeTitle);
@@ -49,12 +50,11 @@ const moveFile = (torrentName: string, jpName: string): boolean => {
   }
   const dst = path.join(dstFolder, `${safeTitle} s1e${ep}${ext}`);
   try {
-    fs.renameSync(path.join(basePath, torrentName), dst);
+    fs.renameSync(srcPath, dst);
   } catch (error) {
     console.log(error.toString());
     return false;
   }
-
   return true;
 };
 

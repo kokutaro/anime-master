@@ -23,10 +23,10 @@ const fileMonitor = (): NodeJS.Timeout => {
       const stat = fs.statSync(fullPath);
       if (stat.isDirectory()) {
         walkTree(fullPath, (s) => {
-          filesToMove.push(path.basename(s));
+          filesToMove.push(s);
         });
       } else {
-        filesToMove.push(path.basename(f));
+        filesToMove.push(f);
       }
     });
     await sleep(1000);
@@ -42,7 +42,7 @@ async function getJpNameAndMove(filesToMove: string[]) {
   console.log(fileToMove);
   await sleep(350);
   try {
-    const jpNameData = await getJpName(fileToMove);
+    const jpNameData = await getJpName(path.basename(fileToMove));
     if (jpNameData) {
       moveFile(fileToMove, jpNameData.anime.title.japanese);
     }

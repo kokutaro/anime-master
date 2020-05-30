@@ -1,6 +1,11 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 import bodyParser from 'body-parser';
 import express, { Request, Response } from 'express';
 import http from 'http';
+import path from 'path';
 
 import getJpName from '../utils/getJpName';
 import moveFile from '../utils/moveFile';
@@ -19,7 +24,7 @@ app.post('/', async (req: Request<never, never, { tname: string }>, res: Respons
     return res.end();
   }
 
-  moveFile(tname, animeData.anime.title.japanese);
+  moveFile(path.join(process.env.BASE_PATH ?? '', tname), animeData.anime.title.japanese);
 });
 
 const torrentServer = http.createServer(app);
