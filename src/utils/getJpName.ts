@@ -5,15 +5,22 @@ import axios from 'axios';
 
 import { AnimeData } from '../types/AnimeData';
 
+const re = /^\[.*?\] *(.*?) - (\d\d|\d\d\.\d|\d\dv\d).*?$/;
+
 const animeApi = axios.create({
   baseURL: process.env.UT_API_URL ?? '',
 });
 
 const getJpName = async (tname: string): Promise<AnimeData | null> => {
   try {
+    const reRes = re.exec(tname);
+    if (!reRes) {
+      return null;
+    }
+    const [, keyword] = reRes;
     const animes = await animeApi.get<AnimeData[]>('/list', {
       params: {
-        keyword: tname,
+        keyword,
       },
     });
     if (!animes.data || !animes.data.length) {
@@ -22,7 +29,7 @@ const getJpName = async (tname: string): Promise<AnimeData | null> => {
     const [animeData] = animes.data;
     return animeData;
   } catch (error) {
-    console.error(error);
+    console.error(error.toString());
     return null;
   }
 };
