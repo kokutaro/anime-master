@@ -30,8 +30,26 @@ const fileMonitor = (): NodeJS.Timeout => {
       }
     });
     await sleep(1000);
-    console.log(filesToMove);
+    await getJpNameAndMove(filesToMove);
   }, 1 * 60 * 1000);
 };
+
+async function getJpNameAndMove(filesToMove: string[]) {
+  const fileToMove = filesToMove.pop();
+  if (!fileToMove) {
+    return;
+  }
+  console.log(fileToMove);
+  await sleep(350);
+  try {
+    const jpNameData = await getJpName(fileToMove);
+    if (jpNameData) {
+      moveFile(fileToMove, jpNameData.anime.title.japanese);
+    }
+  } catch (error) {
+    console.error(error.toString());
+  }
+  await getJpNameAndMove(filesToMove);
+}
 
 export default fileMonitor;
