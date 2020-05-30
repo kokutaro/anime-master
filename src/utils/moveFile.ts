@@ -5,7 +5,6 @@ import stopTorrent from './stopTorrent';
 
 const re = /(^\[.*?\] *)?(.*?) - (SP|OA[DV]|OVA)?(\d\d|\d\d\.\d|\d\dv\d).*?$/;
 
-const basePath = process.env.BASE_PATH ?? '';
 const moveTo = process.env.DEST_PATH ?? '';
 
 const ngLetter = [

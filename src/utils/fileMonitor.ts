@@ -31,7 +31,7 @@ const fileMonitor = (): NodeJS.Timeout => {
     });
     await sleep(1000);
     await getJpNameAndMove(filesToMove);
-  }, 1 * 60 * 1000);
+  }, 5 * 60 * 1000);
 };
 
 async function getJpNameAndMove(filesToMove: string[]) {
