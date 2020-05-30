@@ -1,9 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import axios from 'axios';
 
 import { AnimeData } from '../types/AnimeData';
 
 const animeApi = axios.create({
-  baseURL: process.env.UT_API_URL,
+  baseURL: process.env.UT_API_URL ?? '',
 });
 
 const getJpName = async (tname: string): Promise<AnimeData | null> => {
