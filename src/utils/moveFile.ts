@@ -3,7 +3,7 @@ import path from 'path';
 
 import stopTorrent from './stopTorrent';
 
-const re = /^\[.*?\] *(.*?) - (\d\d|\d\d\.\d|\d\dv\d).*?$/;
+const re = /(^\[.*?\] *)?(.*?) - (\d\d|\d\d\.\d|\d\dv\d).*?$/;
 
 const basePath = process.env.BASE_PATH ?? '';
 const moveTo = process.env.DEST_PATH ?? '';
