@@ -10,16 +10,21 @@ const animeApi = axios.create({
 });
 
 const getJpName = async (tname: string): Promise<AnimeData | null> => {
-  const animes = await animeApi.get<AnimeData[]>('/list', {
-    params: {
-      keyword: tname,
-    },
-  });
-  if (!animes.data || !animes.data.length) {
+  try {
+    const animes = await animeApi.get<AnimeData[]>('/list', {
+      params: {
+        keyword: tname,
+      },
+    });
+    if (!animes.data || !animes.data.length) {
+      return null;
+    }
+    const [animeData] = animes.data;
+    return animeData;
+  } catch (error) {
+    console.error(error.error);
     return null;
   }
-  const [animeData] = animes.data;
-  return animeData;
 };
 
 export default getJpName;
